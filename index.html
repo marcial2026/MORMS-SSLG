@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SSLG — Marcial O. Rañola Memorial School</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<!-- PapaParse for robust CSV parsing -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
 :root {
   --orange:       #E8621A;
@@ -48,11 +50,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:var(--nav-h);backgrou
 [data-theme="dark"] nav{background:rgba(18,10,4,.94);}
 .nav-inner{max-width:1280px;margin:0 auto;padding:0 2rem;height:100%;display:flex;align-items:center;justify-content:space-between;}
 .nav-logo{display:flex;align-items:center;gap:.75rem;text-decoration:none;cursor:pointer;}
-
-/* ── NAVBAR LOGO — put your school logo image here ──
-   Replace .logo-seal-ph with: <img src="your-logo.png" alt="SSLG Logo">
-   The circle is 42×42px. Logo will be cropped round automatically.
-*/
 .logo-seal{width:42px;height:42px;border-radius:50%;border:2px solid var(--orange);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;background:var(--orange-light);}
 .logo-seal img{width:100%;height:100%;object-fit:cover;}
 .logo-seal-ph{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:.9rem;color:var(--orange);}
@@ -98,16 +95,10 @@ main{padding-top:var(--nav-h);}
 
 /* HERO */
 .hero{position:relative;min-height:calc(100vh - var(--nav-h));display:flex;align-items:center;justify-content:center;overflow:hidden;background:#120800;}
-
-/* Canvas animation layer */
 #hero-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%;}
-
-/* Optional background image layer — sits above canvas at low opacity */
 .hero-bg{position:absolute;inset:0;z-index:1;pointer-events:none;}
 .hero-bg img{width:100%;height:100%;object-fit:cover;opacity:.15;display:block;}
 .hero-bg-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.08);font-weight:500;pointer-events:none;}
-
-/* Floating orbs */
 .hero-orbs{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
 .orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat linear infinite;}
 .orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(232,98,26,.18),transparent 70%);top:-10%;left:-10%;animation-duration:18s;}
@@ -120,13 +111,8 @@ main{padding-top:var(--nav-h);}
   75% {transform:translate(40px,20px) scale(1.03);}
   100%{transform:translate(0,0) scale(1);}
 }
-
-/* Diagonal lines texture */
 .hero-tex{position:absolute;inset:0;z-index:2;opacity:.035;pointer-events:none;background-image:repeating-linear-gradient(-55deg,transparent,transparent 20px,rgba(255,255,255,1) 20px,rgba(255,255,255,1) 21px);}
-
-/* Bottom glow */
 .hero-glow{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 50% 110%,rgba(232,98,26,.28),transparent);}
-
 .hero-content{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;text-align:center;padding:4rem 1.5rem 0;width:100%;animation:heroUp 1s .2s cubic-bezier(.4,0,.2,1) both;}
 @keyframes heroUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
 .aff-logos{display:flex;align-items:center;gap:1.25rem;margin-bottom:2.5rem;flex-wrap:wrap;justify-content:center;}
@@ -409,7 +395,6 @@ footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 
   <div class="nav-inner">
     <a class="nav-logo" onclick="showPage('home')">
       <div class="logo-seal">
-        <!-- TO ADD LOGO: replace the div below with <img src="your-logo.png" alt="SSLG Logo"> -->
         <div class="logo-seal-ph">SSLG</div>
       </div>
       <div class="logo-name">
@@ -486,44 +471,32 @@ footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 
 <div class="page active" id="page-home">
 
   <section class="hero">
-    <!-- Animated particle canvas -->
     <canvas id="hero-canvas"></canvas>
-
-    <!-- Floating color orbs -->
     <div class="hero-orbs">
       <div class="orb orb1"></div>
       <div class="orb orb2"></div>
       <div class="orb orb3"></div>
     </div>
-
     <div class="hero-bg">
-      <!-- TO ADD HERO BG IMAGE: <img src="your-background.jpg" alt=""> inside this div.
-           It will sit behind everything at low opacity as a subtle texture. -->
       <div class="hero-bg-ph">Optional: place background image here</div>
     </div>
     <div class="hero-tex"></div>
     <div class="hero-glow"></div>
     <div class="hero-content">
-
-      <!-- AFFILIATE LOGOS — replace each .aff-logo-ph with <img src="logo.png" alt="Name"> -->
       <div class="aff-logos">
         <div class="aff-logo" title="DepEd"><div class="aff-logo-ph">DepEd Logo</div></div>
         <div class="aff-logo" title="School"><div class="aff-logo-ph">School Logo</div></div>
         <div class="aff-logo" title="Region V"><div class="aff-logo-ph">Region V</div></div>
         <div class="aff-logo" title="SDO"><div class="aff-logo-ph">SDO</div></div>
       </div>
-
-      <!-- SCHOOL SEAL — replace .seal-ph with <img src="seal.png" alt="SSLG Seal"> -->
       <div class="hero-seal">
         <div class="seal-ph">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/></svg>
           <span>Place Seal Here</span>
         </div>
       </div>
-
       <div class="hero-org">Supreme Secondary Learner Government</div>
       <div class="hero-school">Marcial O. Ra&ntilde;ola Memorial School</div>
-
       <div class="hero-banner">
         <div class="hero-tagline">Empowering <em>Excellence,</em><br>Inspiring Change.</div>
         <div class="hero-sy">SY 2025 &mdash; 2026</div>
@@ -559,8 +532,7 @@ footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 
       <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);display:flex;align-items:center;justify-content:center;gap:.75rem;"><div class="fb-spinner"></div>Loading...</div>
     </div>
   </div>
-
-</div><!-- /home -->
+</div>
 
 <!-- OVERVIEW -->
 <div class="page" id="page-overview">
@@ -716,7 +688,6 @@ footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 
 
   <!-- DASHBOARD -->
   <div class="section" id="admin-dashboard-section" style="display:none">
-
     <div class="admin-top-bar">
       <div>
         <div class="eyebrow">Admin Dashboard</div>
@@ -728,74 +699,33 @@ footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 
       </div>
     </div>
 
-    <!-- How to add posts guide -->
     <div class="admin-form-card reveal">
       <h3 class="admin-form-title">How to Add / Update Posts</h3>
       <div class="admin-steps">
-        <div class="admin-step">
-          <div class="step-num">1</div>
-          <div class="step-info">
-            <strong>Open the Google Sheet</strong>
-            <p>Go to your SSLG Google Sheet. Make sure you're logged in to the SSLG Google account.</p>
-            <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRhBTY9rgI8qTkADPhTJZD4qvHo8-oC_9uc-U5PA6YUIE4sUfibMwm9yHNT5CC-smvYfxQL4WfD_q2H/pub?gid=0&single=true&output=csv" target="_blank" class="admin-sheet-link">Open Sheet &rarr;</a>
-          </div>
-        </div>
-        <div class="admin-step">
-          <div class="step-num">2</div>
-          <div class="step-info">
-            <strong>Add a new row</strong>
-            <p>Fill in the columns: <code>caption</code>, <code>date</code> (YYYY-MM-DD), <code>embed_code</code>, <code>visible</code> (type <code>yes</code> to show, <code>no</code> to hide).</p>
-          </div>
-        </div>
-        <div class="admin-step">
-          <div class="step-num">3</div>
-          <div class="step-info">
-            <strong>Get the embed code</strong>
-            <p>Go to your Facebook post &rarr; click the <strong>3 dots (...)</strong> &rarr; click <strong>Embed</strong> &rarr; copy the full code &rarr; paste it in the <code>embed_code</code> column.</p>
-          </div>
-        </div>
-        <div class="admin-step">
-          <div class="step-num">4</div>
-          <div class="step-info">
-            <strong>Come back and refresh</strong>
-            <p>Click the <strong>Refresh Posts</strong> button above. The website will fetch the latest posts from the Sheet automatically.</p>
-          </div>
-        </div>
+        <div class="admin-step"><div class="step-num">1</div><div class="step-info"><strong>Open the Google Sheet</strong><p>Go to your SSLG Google Sheet. Make sure you're logged in to the SSLG Google account.</p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRhBTY9rgI8qTkADPhTJZD4qvHo8-oC_9uc-U5PA6YUIE4sUfibMwm9yHNT5CC-smvYfxQL4WfD_q2H/pub?gid=0&single=true&output=csv" target="_blank" class="admin-sheet-link">Open Sheet &rarr;</a></div></div>
+        <div class="admin-step"><div class="step-num">2</div><div class="step-info"><strong>Add a new row</strong><p>Fill in the columns: <code>caption</code>, <code>date</code> (YYYY-MM-DD), <code>embed_code</code>, <code>visible</code> (type <code>yes</code> to show, <code>no</code> to hide).</p></div></div>
+        <div class="admin-step"><div class="step-num">3</div><div class="step-info"><strong>Get the embed code</strong><p>Go to your Facebook post &rarr; click the <strong>3 dots (...)</strong> &rarr; click <strong>Embed</strong> &rarr; copy the full code &rarr; paste it in the <code>embed_code</code> column.</p></div></div>
+        <div class="admin-step"><div class="step-num">4</div><div class="step-info"><strong>Come back and refresh</strong><p>Click the <strong>Refresh Posts</strong> button above. The website will fetch the latest posts from the Sheet automatically.</p></div></div>
       </div>
-
-      <!-- Embed preview tool -->
       <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);">
         <h3 class="admin-form-title" style="margin-bottom:1rem;">Test Embed Code</h3>
         <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1rem;">Paste an embed code below to preview how it looks before adding it to the Sheet.</p>
-        <div class="admin-field">
-          <textarea id="new-embed" rows="4" placeholder="Paste Facebook embed code here to preview..."></textarea>
-        </div>
+        <div class="admin-field"><textarea id="new-embed" rows="4" placeholder="Paste Facebook embed code here to preview..."></textarea></div>
         <button class="admin-btn-secondary" onclick="previewEmbed()">Preview</button>
-        <div id="embed-preview" class="embed-preview" style="display:none">
-          <p class="embed-preview-label">Preview</p>
-          <div id="embed-preview-content"></div>
-        </div>
+        <div id="embed-preview" class="embed-preview" style="display:none"><p class="embed-preview-label">Preview</p><div id="embed-preview-content"></div></div>
       </div>
     </div>
 
-    <!-- Change password -->
     <div class="admin-form-card reveal" style="margin-top:1.5rem;">
       <h3 class="admin-form-title">Change Admin Password</h3>
       <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1.25rem;">This password protects access to this admin panel only. Change it from the default <code style="background:var(--gray-100);padding:.1rem .4rem;border-radius:4px;">sslg2025</code> as soon as possible.</p>
       <div class="admin-form-grid">
-        <div class="admin-field">
-          <label>New Password</label>
-          <input type="password" id="new-pw" placeholder="Enter new password"/>
-        </div>
-        <div class="admin-field">
-          <label>Confirm Password</label>
-          <input type="password" id="confirm-pw" placeholder="Confirm new password"/>
-        </div>
+        <div class="admin-field"><label>New Password</label><input type="password" id="new-pw" placeholder="Enter new password"/></div>
+        <div class="admin-field"><label>Confirm Password</label><input type="password" id="confirm-pw" placeholder="Confirm new password"/></div>
       </div>
       <button class="admin-btn-primary" onclick="changePassword()" style="margin-top:.5rem;">Update Password</button>
       <div id="pw-msg" style="display:none;font-size:.82rem;margin-top:.75rem;font-weight:500;"></div>
     </div>
-
   </div>
 </div>
 
@@ -805,42 +735,18 @@ footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 
 <footer id="footer">
   <div class="ft-grid">
     <div class="ft-brand">
-      <div class="ft-brand-logo">
-        <div class="ft-seal">
-          <!-- TO ADD LOGO: <img src="seal.png" alt=""> inside .ft-seal -->
-          <div class="ft-seal-ph">SSLG</div>
-        </div>
-        <div class="ft-brand-name"><strong>SSLG</strong><span>Marcial O. Ra&ntilde;ola Memorial School</span></div>
-      </div>
+      <div class="ft-brand-logo"><div class="ft-seal"><div class="ft-seal-ph">SSLG</div></div><div class="ft-brand-name"><strong>SSLG</strong><span>Marcial O. Ra&ntilde;ola Memorial School</span></div></div>
       <p>Serving the students of Marcial O. Ra&ntilde;ola Memorial School with integrity, transparency, and a commitment to excellence in governance and service.</p>
     </div>
-    <div class="ft-col">
-      <h4>About Us</h4>
-      <a onclick="showPage('overview')">Overview</a>
-      <a onclick="showPage('structure')">Structure</a>
-      <a onclick="showPage('laws')">Laws / Policies</a>
-    </div>
-    <div class="ft-col">
-      <h4>Programs</h4>
-      <a onclick="showPage('projects');setTab('sy2526')">SY 2025&ndash;2026</a>
-      <a onclick="showPage('projects');setTab('sy2627')">SY 2026&ndash;2027</a>
-      <a onclick="showPage('transparency')">Transparency</a>
-    </div>
-    <div class="ft-col">
-      <h4>Quick Links</h4>
-      <a onclick="showPage('achievements')">Achievements</a>
-      <a href="#">Facebook Page</a>
-      <a href="#">Contact SSLG</a>
-    </div>
+    <div class="ft-col"><h4>About Us</h4><a onclick="showPage('overview')">Overview</a><a onclick="showPage('structure')">Structure</a><a onclick="showPage('laws')">Laws / Policies</a></div>
+    <div class="ft-col"><h4>Programs</h4><a onclick="showPage('projects');setTab('sy2526')">SY 2025&ndash;2026</a><a onclick="showPage('projects');setTab('sy2627')">SY 2026&ndash;2027</a><a onclick="showPage('transparency')">Transparency</a></div>
+    <div class="ft-col"><h4>Quick Links</h4><a onclick="showPage('achievements')">Achievements</a><a href="#">Facebook Page</a><a href="#">Contact SSLG</a></div>
   </div>
-  <div class="ft-btm">
-    <p>&copy; 2025 SSLG &mdash; Marcial O. Ra&ntilde;ola Memorial School. All rights reserved.</p>
-    <p>Official Website of the Supreme Secondary Learner Government</p>
-  </div>
+  <div class="ft-btm"><p>&copy; 2025 SSLG &mdash; Marcial O. Ra&ntilde;ola Memorial School. All rights reserved.</p><p>Official Website of the Supreme Secondary Learner Government</p></div>
 </footer>
 
 <script>
-// ── HERO CANVAS ANIMATION ──
+// ── HERO CANVAS ANIMATION (unchanged) ──
 (function(){
   const canvas = document.getElementById('hero-canvas');
   if(!canvas) return;
@@ -848,172 +754,49 @@ footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 
   let W, H, particles = [], lines = [], mouse = {x:-9999,y:-9999};
   const ORANGE = 'rgba(232,98,26,';
   const GOLD   = 'rgba(255,160,60,';
-
-  function resize(){
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
-  }
-
-  function Particle(){
-    this.reset = function(){
-      this.x  = Math.random()*W;
-      this.y  = Math.random()*H;
-      this.vx = (Math.random()-.5)*.4;
-      this.vy = (Math.random()-.5)*.4;
-      this.r  = Math.random()*1.8+.4;
-      this.a  = Math.random()*.5+.15;
-      this.c  = Math.random()>.5 ? ORANGE : GOLD;
-      this.life = Math.random()*200+100;
-      this.age  = 0;
-    };
-    this.reset();
-    this.age = Math.random()*this.life;
-  }
-
-  // Wave lines
-  function WaveLine(y, amp, speed, color, width){
-    this.y=y; this.amp=amp; this.speed=speed;
-    this.color=color; this.width=width;
-    this.offset=Math.random()*Math.PI*2;
-    this.t=0;
-  }
-  WaveLine.prototype.draw=function(){
-    this.t += this.speed;
-    ctx.beginPath();
-    ctx.moveTo(0, this.y);
-    for(let x=0;x<=W;x+=4){
-      const wave1 = Math.sin(x*.008 + this.t + this.offset) * this.amp;
-      const wave2 = Math.sin(x*.015 + this.t*.7) * (this.amp*.4);
-      ctx.lineTo(x, this.y + wave1 + wave2);
-    }
-    ctx.strokeStyle = this.color;
-    ctx.lineWidth   = this.width;
-    ctx.stroke();
-  };
-
-  function init(){
-    resize();
-    particles = Array.from({length:90},()=>new Particle());
-    lines = [
-      new WaveLine(H*.25, 28, .006, ORANGE+'.07)', 1.5),
-      new WaveLine(H*.42, 20, .009, GOLD  +'.05)', 1),
-      new WaveLine(H*.60, 35, .005, ORANGE+'.06)', 2),
-      new WaveLine(H*.78, 22, .008, GOLD  +'.04)', 1),
-    ];
-  }
-
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-
-    // Dark base gradient
-    const g = ctx.createLinearGradient(0,0,W,H);
-    g.addColorStop(0,'#120800');
-    g.addColorStop(.5,'#2A0E02');
-    g.addColorStop(1,'#120800');
-    ctx.fillStyle=g;
-    ctx.fillRect(0,0,W,H);
-
-    // Wave lines
-    lines.forEach(l=>l.draw());
-
-    // Particles
-    particles.forEach(p=>{
-      p.age++;
-      if(p.age>p.life) p.reset();
-      p.x+=p.vx; p.y+=p.vy;
-      if(p.x<0||p.x>W||p.y<0||p.y>H) p.reset();
-
-      // Mouse repel
-      const dx=p.x-mouse.x, dy=p.y-mouse.y;
-      const dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<120){ p.x+=dx/dist*1.2; p.y+=dy/dist*1.2; }
-
-      // Fade in/out
-      const life = p.age/p.life;
-      const fade = life<.1 ? life/.1 : life>.9 ? (1-life)/.1 : 1;
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle = p.c+(p.a*fade)+')';
-      ctx.fill();
-
-      // Connect nearby particles
-      particles.forEach(q=>{
-        if(p===q) return;
-        const ex=p.x-q.x,ey=p.y-q.y;
-        const ed=Math.sqrt(ex*ex+ey*ey);
-        if(ed<100){
-          ctx.beginPath();
-          ctx.moveTo(p.x,p.y);
-          ctx.lineTo(q.x,q.y);
-          ctx.strokeStyle=ORANGE+((.06*(1-ed/100))*fade)+')';
-          ctx.lineWidth=.5;
-          ctx.stroke();
-        }
-      });
-    });
-
-    requestAnimationFrame(draw);
-  }
-
+  function resize(){ W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+  function Particle(){ this.reset = function(){ this.x = Math.random()*W; this.y = Math.random()*H; this.vx = (Math.random()-.5)*.4; this.vy = (Math.random()-.5)*.4; this.r = Math.random()*1.8+.4; this.a = Math.random()*.5+.15; this.c = Math.random()>.5 ? ORANGE : GOLD; this.life = Math.random()*200+100; this.age = 0; }; this.reset(); this.age = Math.random()*this.life; }
+  function WaveLine(y, amp, speed, color, width){ this.y=y; this.amp=amp; this.speed=speed; this.color=color; this.width=width; this.offset=Math.random()*Math.PI*2; this.t=0; }
+  WaveLine.prototype.draw=function(){ this.t += this.speed; ctx.beginPath(); ctx.moveTo(0, this.y); for(let x=0;x<=W;x+=4){ const wave1 = Math.sin(x*.008 + this.t + this.offset) * this.amp; const wave2 = Math.sin(x*.015 + this.t*.7) * (this.amp*.4); ctx.lineTo(x, this.y + wave1 + wave2); } ctx.strokeStyle = this.color; ctx.lineWidth = this.width; ctx.stroke(); };
+  function init(){ resize(); particles = Array.from({length:90},()=>new Particle()); lines = [ new WaveLine(H*.25, 28, .006, ORANGE+'.07)', 1.5), new WaveLine(H*.42, 20, .009, GOLD+'.05)', 1), new WaveLine(H*.60, 35, .005, ORANGE+'.06)', 2), new WaveLine(H*.78, 22, .008, GOLD+'.04)', 1) ]; }
+  function draw(){ ctx.clearRect(0,0,W,H); const g = ctx.createLinearGradient(0,0,W,H); g.addColorStop(0,'#120800'); g.addColorStop(.5,'#2A0E02'); g.addColorStop(1,'#120800'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); lines.forEach(l=>l.draw()); particles.forEach(p=>{ p.age++; if(p.age>p.life) p.reset(); p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>W||p.y<0||p.y>H) p.reset(); const dx=p.x-mouse.x, dy=p.y-mouse.y, dist=Math.sqrt(dx*dx+dy*dy); if(dist<120){ p.x+=dx/dist*1.2; p.y+=dy/dist*1.2; } const life = p.age/p.life; const fade = life<.1 ? life/.1 : life>.9 ? (1-life)/.1 : 1; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle = p.c+(p.a*fade)+')'; ctx.fill(); particles.forEach(q=>{ if(p===q) return; const ex=p.x-q.x,ey=p.y-q.y, ed=Math.sqrt(ex*ex+ey*ey); if(ed<100){ ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.strokeStyle=ORANGE+((.06*(1-ed/100))*fade)+')'; ctx.lineWidth=.5; ctx.stroke(); } }); }); requestAnimationFrame(draw); }
   window.addEventListener('resize',()=>{resize();lines.forEach(l=>{l.y*=H/l.y;});});
-  document.querySelector('.hero').addEventListener('mousemove',e=>{
-    const r=canvas.getBoundingClientRect();
-    mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top;
-  });
+  document.querySelector('.hero').addEventListener('mousemove',e=>{ const r=canvas.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; });
   document.querySelector('.hero').addEventListener('mouseleave',()=>{mouse.x=-9999;mouse.y=-9999;});
   init(); draw();
 })();
 
+// Helper functions
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const pg=document.getElementById('page-'+id);
-  if(pg){pg.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});initReveal();}
-  if(id==='home'){renderAnnouncements();renderEvents();}
-  if(id==='structure')renderOfficers();
-  if(id==='projects')renderProjects(currentSY());
-  if(id==='achievements')renderAchievements();
-  if(id==='fbposts')renderFbPosts();
+  const pg = document.getElementById('page-'+id);
+  if(pg){ pg.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); initReveal(); }
+  if(id==='home'){ renderAnnouncements(); renderEvents(); }
+  if(id==='structure') renderOfficers();
+  if(id==='projects') renderProjects(currentSY());
+  if(id==='achievements') renderAchievements();
+  if(id==='fbposts') renderFbPosts();
   closeDrawer();
 }
-function currentSY(){
-  const active=document.querySelector('.tab-pill.active');
-  return active?active.dataset.sy:'2025-2026';
-}
+function currentSY(){ const active = document.querySelector('.tab-pill.active'); return active ? active.dataset.sy : '2025-2026'; }
 function setTab(id){
   document.querySelectorAll('.tab-pill').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  const b=document.getElementById('tab-'+id),p=document.getElementById('panel-'+id);
-  if(b)b.classList.add('active');if(p)p.classList.add('active');
-  const sy=id==='sy2526'?'2025-2026':'2026-2027';
+  const b = document.getElementById('tab-'+id);
+  if(b) b.classList.add('active');
+  const sy = id==='sy2526' ? '2025-2026' : '2026-2027';
   renderProjects(sy);
 }
-function toggleDark(){
-  const h=document.documentElement;
-  h.dataset.theme=h.dataset.theme==='dark'?'light':'dark';
-  localStorage.setItem('sslg-theme',h.dataset.theme);
-}
-(function(){const t=localStorage.getItem('sslg-theme');if(t)document.documentElement.dataset.theme=t;})();
-function toggleDrawer(){
-  document.getElementById('drawer').classList.toggle('open');
-  document.getElementById('ham').classList.toggle('open');
-}
-function closeDrawer(){
-  document.getElementById('drawer').classList.remove('open');
-  document.getElementById('ham').classList.remove('open');
-}
-function initReveal(){
-  const els=document.querySelectorAll('.page.active .reveal');
-  if('IntersectionObserver' in window){
-    const io=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:.12});
-    els.forEach(el=>io.observe(el));
-  } else {els.forEach(el=>el.classList.add('visible'));}
-}
+function toggleDark(){ const h = document.documentElement; h.dataset.theme = h.dataset.theme==='dark' ? 'light' : 'dark'; localStorage.setItem('sslg-theme', h.dataset.theme); }
+(function(){ const t = localStorage.getItem('sslg-theme'); if(t) document.documentElement.dataset.theme = t; })();
+function toggleDrawer(){ document.getElementById('drawer').classList.toggle('open'); document.getElementById('ham').classList.toggle('open'); }
+function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('ham').classList.remove('open'); }
+function initReveal(){ const els = document.querySelectorAll('.page.active .reveal'); if('IntersectionObserver' in window){ const io = new IntersectionObserver(en=>{ en.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } }); }, {threshold:.12}); els.forEach(el=>io.observe(el)); } else { els.forEach(el=>el.classList.add('visible')); } }
 document.querySelectorAll('a[href="#"]').forEach(a=>a.addEventListener('click',e=>e.preventDefault()));
 window.addEventListener('load',()=>{ initReveal(); renderAnnouncements(); renderEvents(); });
 window.addEventListener('scroll',initReveal,{passive:true});
 
 // ══════════════════════════════════════════
-// GOOGLE SHEETS CMS — All sections
+// GOOGLE SHEETS CMS — using PapaParse (fixed)
 // ══════════════════════════════════════════
 const BASE = '2PACX-1vR58WhbJKoBlkicSyz5lu7IJbUNTFjNXfFJsDKOKjFDPQBS9yMDmYkTFUMn4mt1T19s14F3HbLWb91i';
 const SHEETS = {
@@ -1025,29 +808,8 @@ const SHEETS = {
   fb_posts:      `https://docs.google.com/spreadsheets/d/e/${BASE}/pub?gid=1805364192&single=true&output=csv`,
 };
 
-// ── CSV PARSER (handles commas inside quoted fields) ──
-function parseCSV(text){
-  const lines = text.trim().split('\n');
-  if(lines.length < 2) return [];
-  const headers = lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,'').toLowerCase());
-  return lines.slice(1).map(line=>{
-    const cols=[]; let cur='',inQ=false;
-    for(let i=0;i<line.length;i++){
-      const c=line[i];
-      if(c==='"'){inQ=!inQ;}
-      else if(c===','&&!inQ){cols.push(cur);cur='';}
-      else{cur+=c;}
-    }
-    cols.push(cur);
-    const obj={};
-    headers.forEach((h,i)=>{obj[h]=(cols[i]||'').trim().replace(/^"|"$/g,'');});
-    return obj;
-  }).filter(r=>(r.visible||'').toLowerCase()==='yes');
-}
-
-// ── FETCH via multiple proxy fallbacks ──
 async function fetchSheet(key){
-  const url = SHEETS[key]+'&t='+Date.now();
+  const url = SHEETS[key] + '&t=' + Date.now();
   const proxies = [
     `https://corsproxy.io/?${encodeURIComponent(url)}`,
     `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
@@ -1055,230 +817,160 @@ async function fetchSheet(key){
   ];
   for(const proxy of proxies){
     try{
-      const res  = await fetch(proxy);
+      const res = await fetch(proxy);
       if(!res.ok) continue;
       const text = await res.text();
-      // allorigins wraps in JSON, others return raw CSV
       let csv = text;
-      try{ const j=JSON.parse(text); if(j.contents) csv=j.contents; }catch(e){}
-      const rows = parseCSV(csv);
-      if(rows.length>=0) return rows;
-    }catch(e){
-      console.warn('Proxy failed:',proxy,e);
-    }
+      try{ const json = JSON.parse(text); if(json.contents) csv = json.contents; }catch(e){}
+      const result = Papa.parse(csv, { header: true, skipEmptyLines: true });
+      if(result.errors.length) console.warn(`PapaParse errors (${key}):`, result.errors);
+      const rows = result.data.filter(row => row.visible && row.visible.toLowerCase() === 'yes');
+      if(rows.length > 0) return rows;
+    }catch(e){ console.warn(`Proxy ${proxy} failed:`, e); }
   }
-  console.error('All proxies failed for sheet:',key);
+  console.error(`All proxies failed for sheet: ${key}`);
   return [];
 }
 
-// ── HELPERS ──
 function formatDate(d){
   if(!d) return '';
-  const dt=new Date(d+'T00:00:00');
-  return isNaN(dt)?d:dt.toLocaleDateString('en-PH',{year:'numeric',month:'long',day:'numeric'});
+  const dt = new Date(d+'T00:00:00');
+  return isNaN(dt) ? d : dt.toLocaleDateString('en-PH',{year:'numeric',month:'long',day:'numeric'});
 }
-function sanitize(str){
-  const d=document.createElement('div');
-  d.textContent=str;
-  return d.innerHTML;
-}
-function imgTag(url,alt){
-  if(!url||url.includes('YOUR_FILE_ID')) return '';
-  return `<img src="${url}" alt="${alt||''}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.display='none'">`;
-}
-function loadingHTML(cols){
-  return `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);display:flex;align-items:center;justify-content:center;gap:.75rem;"><div class="fb-spinner"></div>Loading...</div>`;
-}
-function emptyHTML(msg){
-  return `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);font-size:.9rem;">${msg}</div>`;
-}
+function sanitize(str){ const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+function loadingHTML(){ return `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);display:flex;align-items:center;justify-content:center;gap:.75rem;"><div class="fb-spinner"></div>Loading...</div>`; }
+function emptyHTML(msg){ return `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);font-size:.9rem;">${msg}</div>`; }
 
-// ── ANNOUNCEMENTS ──
 async function renderAnnouncements(){
-  const grid=document.getElementById('announcements-grid');
-  if(!grid)return;
-  grid.innerHTML=loadingHTML();
-  const rows=await fetchSheet('announcements');
-  if(!rows.length){grid.innerHTML=emptyHTML('No announcements yet.');return;}
-  grid.innerHTML=rows.map(r=>`
+  const grid = document.getElementById('announcements-grid');
+  if(!grid) return;
+  grid.innerHTML = loadingHTML();
+  const rows = await fetchSheet('announcements');
+  if(!rows.length){ grid.innerHTML = emptyHTML('No announcements yet.'); return; }
+  grid.innerHTML = rows.map(r => `
     <div class="card reveal">
-      <div class="card-img">
-        ${r.image_url&&!r.image_url.includes('YOUR_FILE_ID')
-          ? `<img src="${r.image_url}" alt="${sanitize(r.title)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">`
-          : `<div class="img-ph"><div class="img-ph-box"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><span>No Image</span></div>`}
-      </div>
-      <div class="card-body">
-        <span class="tag">${sanitize(r.tag||'Announcement')}</span>
-        <h3>${sanitize(r.title)}</h3>
-        <p>${sanitize(r.description)}</p>
-        ${r.date?`<div class="card-meta"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${formatDate(r.date)}</div>`:''}
-      </div>
+      <div class="card-img">${r.image_url && !r.image_url.includes('YOUR_FILE_ID') ? `<img src="${r.image_url}" alt="${sanitize(r.title)}">` : `<div class="img-ph"><div class="img-ph-box"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><span>No Image</span></div>`}</div>
+      <div class="card-body"><span class="tag">${sanitize(r.tag||'Announcement')}</span><h3>${sanitize(r.title)}</h3><p>${sanitize(r.description)}</p>${r.date ? `<div class="card-meta"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${formatDate(r.date)}</div>` : ''}</div>
     </div>`).join('');
   initReveal();
 }
-
-// ── EVENTS ──
 async function renderEvents(){
-  const grid=document.getElementById('events-grid');
-  if(!grid)return;
-  grid.innerHTML=loadingHTML();
-  const rows=await fetchSheet('events');
-  if(!rows.length){grid.innerHTML=emptyHTML('No upcoming events yet.');return;}
-  grid.innerHTML=rows.map(r=>`
+  const grid = document.getElementById('events-grid');
+  if(!grid) return;
+  grid.innerHTML = loadingHTML();
+  const rows = await fetchSheet('events');
+  if(!rows.length){ grid.innerHTML = emptyHTML('No upcoming events yet.'); return; }
+  grid.innerHTML = rows.map(r => `
     <div class="card reveal">
-      <div class="card-img">
-        ${r.image_url&&!r.image_url.includes('YOUR_FILE_ID')
-          ? `<img src="${r.image_url}" alt="${sanitize(r.title)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">`
-          : `<div class="img-ph"><div class="img-ph-box"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><span>No Image</span></div>`}
-      </div>
-      <div class="card-body">
-        <span class="tag">${sanitize(r.tag||'Event')}</span>
-        <h3>${sanitize(r.title)}</h3>
-        <p>${sanitize(r.description)}</p>
-        ${r.date?`<div class="card-meta"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${formatDate(r.date)}</div>`:''}
-      </div>
+      <div class="card-img">${r.image_url && !r.image_url.includes('YOUR_FILE_ID') ? `<img src="${r.image_url}" alt="${sanitize(r.title)}">` : `<div class="img-ph"><div class="img-ph-box"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><span>No Image</span></div>`}</div>
+      <div class="card-body"><span class="tag">${sanitize(r.tag||'Event')}</span><h3>${sanitize(r.title)}</h3><p>${sanitize(r.description)}</p>${r.date ? `<div class="card-meta"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${formatDate(r.date)}</div>` : ''}</div>
     </div>`).join('');
   initReveal();
 }
-
-// ── OFFICERS ──
 async function renderOfficers(){
-  const grid=document.getElementById('officers-grid');
-  if(!grid)return;
-  grid.innerHTML=loadingHTML();
-  const rows=await fetchSheet('officers');
-  if(!rows.length){grid.innerHTML=emptyHTML('No officers listed yet.');return;}
-  grid.innerHTML=rows.map(r=>`
+  const grid = document.getElementById('officers-grid');
+  if(!grid) return;
+  grid.innerHTML = loadingHTML();
+  const rows = await fetchSheet('officers');
+  if(!rows.length){ grid.innerHTML = emptyHTML('No officers listed yet.'); return; }
+  grid.innerHTML = rows.map(r => `
     <div class="off-card reveal">
-      <div class="off-photo">
-        ${r.photo_url&&!r.photo_url.includes('YOUR_FILE_ID')
-          ? `<img src="${r.photo_url}" alt="${sanitize(r.name)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.outerHTML='<div class=off-ph>${(r.name||'?')[0].toUpperCase()}</div>'">`
-          : `<div class="off-ph">${(r.name||'?')[0].toUpperCase()}</div>`}
-      </div>
-      <div class="off-name">${sanitize(r.name)}</div>
-      <div class="off-role">${sanitize(r.role)}</div>
+      <div class="off-photo">${r.photo_url && !r.photo_url.includes('YOUR_FILE_ID') ? `<img src="${r.photo_url}" alt="${sanitize(r.name)}">` : `<div class="off-ph">${(r.name||'?')[0].toUpperCase()}</div>`}</div>
+      <div class="off-name">${sanitize(r.name)}</div><div class="off-role">${sanitize(r.role)}</div>
     </div>`).join('');
   initReveal();
 }
-
-// ── PROJECTS ──
 async function renderProjects(sy){
-  const grid=document.getElementById('projects-list');
-  if(!grid)return;
-  grid.innerHTML=loadingHTML();
-  const rows=await fetchSheet('projects');
-  const filtered=sy?rows.filter(r=>r.sy&&r.sy.replace(/\s/g,'').includes(sy.replace(/\s/g,''))):rows;
-  if(!filtered.length){grid.innerHTML=emptyHTML('No projects for this school year yet.');return;}
-  grid.innerHTML=filtered.map(r=>`
+  const grid = document.getElementById('projects-list');
+  if(!grid) return;
+  grid.innerHTML = loadingHTML();
+  const rows = await fetchSheet('projects');
+  const filtered = sy ? rows.filter(r => r.sy && r.sy.replace(/\s/g,'').includes(sy.replace(/\s/g,''))) : rows;
+  if(!filtered.length){ grid.innerHTML = emptyHTML('No projects for this school year yet.'); return; }
+  grid.innerHTML = filtered.map(r => `
     <div class="proj-row reveal">
-      <div class="proj-thumb">
-        ${r.image_url&&!r.image_url.includes('YOUR_FILE_ID')
-          ? `<img src="${r.image_url}" alt="${sanitize(r.title)}" style="width:100%;height:100%;object-fit:cover;">`
-          : `<div class="proj-th-ph"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Photo</span></div>`}
-      </div>
-      <div class="proj-det">
-        <h3>${sanitize(r.title)}</h3>
-        <p>${sanitize(r.description)}</p>
-        <span class="sp ${r.status==='Completed'?'s-done':r.status==='Ongoing'?'s-ongoing':'s-upcoming'}">${sanitize(r.status||'Upcoming')}</span>
-      </div>
+      <div class="proj-thumb">${r.image_url && !r.image_url.includes('YOUR_FILE_ID') ? `<img src="${r.image_url}" alt="${sanitize(r.title)}">` : `<div class="proj-th-ph"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Photo</span></div>`}</div>
+      <div class="proj-det"><h3>${sanitize(r.title)}</h3><p>${sanitize(r.description)}</p><span class="sp ${r.status==='Completed'?'s-done':r.status==='Ongoing'?'s-ongoing':'s-upcoming'}">${sanitize(r.status||'Upcoming')}</span></div>
     </div>`).join('');
   initReveal();
 }
-
-// ── ACHIEVEMENTS ──
 async function renderAchievements(){
-  const grid=document.getElementById('achievements-grid');
-  if(!grid)return;
-  grid.innerHTML=loadingHTML();
-  const rows=await fetchSheet('achievements');
-  if(!rows.length){grid.innerHTML=emptyHTML('No achievements listed yet.');return;}
-  grid.innerHTML=rows.map(r=>`
+  const grid = document.getElementById('achievements-grid');
+  if(!grid) return;
+  grid.innerHTML = loadingHTML();
+  const rows = await fetchSheet('achievements');
+  if(!rows.length){ grid.innerHTML = emptyHTML('No achievements listed yet.'); return; }
+  grid.innerHTML = rows.map(r => `
     <div class="ach-card reveal">
-      <div class="ach-img">
-        ${r.image_url&&!r.image_url.includes('YOUR_FILE_ID')
-          ? `<img src="${r.image_url}" alt="${sanitize(r.title)}" style="width:100%;height:100%;object-fit:cover;">`
-          : `<div class="ach-ph"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg><span>Add Photo</span></div>`}
-      </div>
-      <div class="ach-body">
-        <h3>${sanitize(r.title)}</h3>
-        <p>${sanitize(r.description)}</p>
-        ${r.year?`<div class="ach-yr">${sanitize(r.year)}</div>`:''}
-      </div>
+      <div class="ach-img">${r.image_url && !r.image_url.includes('YOUR_FILE_ID') ? `<img src="${r.image_url}" alt="${sanitize(r.title)}">` : `<div class="ach-ph"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg><span>Add Photo</span></div>`}</div>
+      <div class="ach-body"><h3>${sanitize(r.title)}</h3><p>${sanitize(r.description)}</p>${r.year ? `<div class="ach-yr">${sanitize(r.year)}</div>` : ''}</div>
     </div>`).join('');
   initReveal();
 }
-
-// ── FACEBOOK POSTS ──
 async function renderFbPosts(){
-  const grid=document.getElementById('fb-posts-grid');
-  if(!grid)return;
-  grid.innerHTML=`<div class="fb-empty fb-loading"><div class="fb-spinner"></div>Loading posts...</div>`;
-  const rows=await fetchSheet('fb_posts');
-  if(!rows.length){grid.innerHTML=`<div class="fb-empty">No posts yet. Check back soon.</div>`;return;}
-  grid.innerHTML=rows.map(r=>`
+  const grid = document.getElementById('fb-posts-grid');
+  if(!grid) return;
+  grid.innerHTML = `<div class="fb-empty fb-loading"><div class="fb-spinner"></div>Loading posts...</div>`;
+  const rows = await fetchSheet('fb_posts');
+  if(!rows.length){ grid.innerHTML = `<div class="fb-empty">No posts yet. Check back soon.</div>`; return; }
+  grid.innerHTML = rows.map(r => `
     <div class="fb-post-card reveal">
-      <div class="fb-embed-wrap">
-        ${r.embed_code||`<div style="padding:2rem;text-align:center;color:var(--text-muted);font-size:.85rem;">No embed code</div>`}
-      </div>
-      <div class="fb-post-meta">
-        ${r.caption?`<div class="fb-post-caption">${sanitize(r.caption)}</div>`:''}
-        ${r.date?`<div class="fb-post-date">${formatDate(r.date)}</div>`:''}
-      </div>
+      <div class="fb-embed-wrap">${r.embed_code || `<div style="padding:2rem;text-align:center;color:var(--text-muted);font-size:.85rem;">No embed code</div>`}</div>
+      <div class="fb-post-meta">${r.caption ? `<div class="fb-post-caption">${sanitize(r.caption)}</div>` : ''}${r.date ? `<div class="fb-post-date">${formatDate(r.date)}</div>` : ''}</div>
     </div>`).join('');
-  if(window.FB)window.FB.XFBML.parse();
+  if(window.FB) window.FB.XFBML.parse();
   initReveal();
 }
 
-// ── ADMIN — shows guide for Google Sheets ──
+// Admin functions
 function adminLogin(){
-  const pw    = document.getElementById('admin-pw-input').value;
-  const stored= localStorage.getItem('sslg_admin_pw')||'sslg2025';
-  if(pw===stored){
-    document.getElementById('admin-login-section').style.display='none';
-    document.getElementById('admin-dashboard-section').style.display='block';
-    document.getElementById('admin-pw-input').value='';
-    document.getElementById('admin-login-err').style.display='none';
+  const pw = document.getElementById('admin-pw-input').value;
+  const stored = localStorage.getItem('sslg_admin_pw') || 'sslg2025';
+  if(pw === stored){
+    document.getElementById('admin-login-section').style.display = 'none';
+    document.getElementById('admin-dashboard-section').style.display = 'block';
+    document.getElementById('admin-pw-input').value = '';
+    document.getElementById('admin-login-err').style.display = 'none';
   } else {
-    document.getElementById('admin-login-err').style.display='block';
-    document.getElementById('admin-pw-input').value='';
+    document.getElementById('admin-login-err').style.display = 'block';
+    document.getElementById('admin-pw-input').value = '';
   }
 }
 function adminLogout(){
-  document.getElementById('admin-login-section').style.display='block';
-  document.getElementById('admin-dashboard-section').style.display='none';
+  document.getElementById('admin-login-section').style.display = 'block';
+  document.getElementById('admin-dashboard-section').style.display = 'none';
 }
 function changePassword(){
-  const np=document.getElementById('new-pw').value;
-  const cp=document.getElementById('confirm-pw').value;
-  const msg=document.getElementById('pw-msg');
-  if(!np){msg.textContent='Enter a new password.';msg.style.display='block';return;}
-  if(np!==cp){msg.textContent='Passwords do not match.';msg.style.color='#DC2626';msg.style.display='block';return;}
-  localStorage.setItem('sslg_admin_pw',np);
-  document.getElementById('new-pw').value='';
-  document.getElementById('confirm-pw').value='';
-  msg.textContent='Password updated!';msg.style.color='var(--orange)';msg.style.display='block';
-  setTimeout(()=>msg.style.display='none',3000);
+  const np = document.getElementById('new-pw').value;
+  const cp = document.getElementById('confirm-pw').value;
+  const msg = document.getElementById('pw-msg');
+  if(!np){ msg.textContent = 'Enter a new password.'; msg.style.display = 'block'; return; }
+  if(np !== cp){ msg.textContent = 'Passwords do not match.'; msg.style.color = '#DC2626'; msg.style.display = 'block'; return; }
+  localStorage.setItem('sslg_admin_pw', np);
+  document.getElementById('new-pw').value = '';
+  document.getElementById('confirm-pw').value = '';
+  msg.textContent = 'Password updated!'; msg.style.color = 'var(--orange)'; msg.style.display = 'block';
+  setTimeout(()=>msg.style.display = 'none', 3000);
 }
 function previewEmbed(){
-  const e=document.getElementById('new-embed').value.trim();
-  if(!e){alert('Paste an embed code first.');return;}
-  document.getElementById('embed-preview-content').innerHTML=e;
-  document.getElementById('embed-preview').style.display='block';
+  const e = document.getElementById('new-embed').value.trim();
+  if(!e){ alert('Paste an embed code first.'); return; }
+  document.getElementById('embed-preview-content').innerHTML = e;
+  document.getElementById('embed-preview').style.display = 'block';
   if(window.FB) window.FB.XFBML.parse();
 }
-function refreshPosts(){
-  const btn=document.getElementById('refresh-btn');
-  btn.textContent='Refreshing...';btn.disabled=true;
-  renderFbPosts().then(()=>{
-    btn.textContent='Refresh Posts';btn.disabled=false;
-  });
+async function refreshPosts(){
+  const btn = document.getElementById('refresh-btn');
+  btn.textContent = 'Refreshing...'; btn.disabled = true;
+  await renderFbPosts();
+  btn.textContent = 'Refresh Posts'; btn.disabled = false;
 }
 
-// Load Facebook SDK
+// Facebook SDK
 (function(d,s,id){
   var js,fjs=d.getElementsByTagName(s)[0];
-  if(d.getElementById(id))return;
-  js=d.createElement(s);js.id=id;
+  if(d.getElementById(id)) return;
+  js=d.createElement(s); js.id=id;
   js.src='https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0';
   fjs.parentNode.insertBefore(js,fjs);
 }(document,'script','facebook-jssdk'));
