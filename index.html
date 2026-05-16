@@ -8,6 +8,7 @@
 <!-- PapaParse for robust CSV parsing -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
+/* ========== YOUR EXISTING STYLES (unchanged) ========== */
 :root {
   --orange:       #E8621A;
   --orange-dark:  #B84D12;
@@ -44,8 +45,6 @@ html{scroll-behavior:smooth;}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);transition:background var(--tr),color var(--tr);overflow-x:hidden;}
 .skip-link{position:fixed;top:-60px;left:1rem;z-index:9999;background:var(--orange);color:#fff;padding:.5rem 1.25rem;border-radius:0 0 10px 10px;font-weight:600;font-size:.85rem;text-decoration:none;transition:top .2s;}
 .skip-link:focus{top:0;}
-
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;height:var(--nav-h);background:rgba(253,250,247,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:background var(--tr),border-color var(--tr);}
 [data-theme="dark"] nav{background:rgba(18,10,4,.94);}
 .nav-inner{max-width:1280px;margin:0 auto;padding:0 2rem;height:100%;display:flex;align-items:center;justify-content:space-between;}
@@ -85,15 +84,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:var(--nav-h);backgrou
 .m-drawer a:hover,.m-drawer button:hover{background:var(--orange-light);color:var(--orange);}
 .m-drawer .sub{padding-left:1.75rem;font-size:.85rem;color:var(--text-muted);}
 .m-div{height:1px;background:var(--border);margin:.4rem 0;}
-
-/* PAGES */
 .page{display:none;}
 .page.active{display:block;}
 @keyframes pgIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 .page.active{animation:pgIn .5s cubic-bezier(.4,0,.2,1) both;}
 main{padding-top:var(--nav-h);}
-
-/* HERO */
 .hero{position:relative;min-height:calc(100vh - var(--nav-h));display:flex;align-items:center;justify-content:center;overflow:hidden;background:#120800;}
 #hero-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%;}
 .hero-bg{position:absolute;inset:0;z-index:1;pointer-events:none;}
@@ -132,8 +127,6 @@ main{padding-top:var(--nav-h);}
 .hero-tagline{position:relative;z-index:1;font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:600;color:#fff;letter-spacing:.02em;text-align:center;line-height:1.2;}
 .hero-tagline em{font-style:normal;font-weight:700;}
 .hero-sy{position:relative;z-index:1;font-size:.75rem;color:rgba(255,255,255,.7);font-weight:500;letter-spacing:.15em;text-transform:uppercase;text-align:center;border:1px solid rgba(255,255,255,.28);padding:.4rem 1rem;border-radius:100px;white-space:nowrap;}
-
-/* SECTIONS */
 .section{max-width:1280px;margin:0 auto;padding:5rem 2rem;}
 .eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:.75rem;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:700;line-height:1.15;color:var(--text);margin-bottom:1rem;}
@@ -142,8 +135,6 @@ main{padding-top:var(--nav-h);}
 .lnk{font-size:.85rem;font-weight:600;color:var(--orange);text-decoration:none;display:flex;align-items:center;gap:.3rem;white-space:nowrap;transition:gap .2s;}
 .lnk:hover{gap:.5rem;}
 .divider{height:1px;background:var(--border);}
-
-/* STATS */
 .stats-bar{background:var(--surface);border-bottom:1px solid var(--border);}
 .stats-grid{max-width:1280px;margin:0 auto;padding:0 2rem;display:grid;grid-template-columns:repeat(4,1fr);}
 .stat-item{padding:2rem 1rem;text-align:center;border-right:1px solid var(--border);transition:background var(--tr);}
@@ -151,8 +142,6 @@ main{padding-top:var(--nav-h);}
 .stat-item:hover{background:var(--orange-light);}
 .stat-num{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:700;color:var(--orange);line-height:1;margin-bottom:.35rem;}
 .stat-label{font-size:.72rem;color:var(--text-muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase;}
-
-/* CARDS */
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
 .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;}
@@ -170,8 +159,6 @@ main{padding-top:var(--nav-h);}
 .card p{font-size:.875rem;color:var(--text-muted);line-height:1.7;}
 .card-meta{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--text-muted);margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
 .card-meta svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0;}
-
-/* PAGE HEADER */
 .pg-header{background:var(--gray-900);padding:5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden;}
 .pg-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 120%,rgba(232,98,26,.2),transparent);}
 .pg-header::after{content:'';position:absolute;inset:0;opacity:.03;background-image:repeating-linear-gradient(-55deg,transparent,transparent 20px,rgba(255,255,255,1) 20px,rgba(255,255,255,1) 21px);}
@@ -182,16 +169,12 @@ main{padding-top:var(--nav-h);}
 .bc-sep{color:rgba(255,255,255,.18);}
 .pg-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;color:#fff;margin-bottom:.75rem;line-height:1.1;}
 .pg-header p{color:rgba(255,255,255,.45);font-size:.95rem;}
-
-/* ABOUT */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
 .info-blk{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.75rem;margin-bottom:1.25rem;border-left:3px solid var(--orange);transition:box-shadow .3s;}
 .info-blk:hover{box-shadow:0 8px 32px var(--orange-glow);}
 .info-blk h3{font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--orange);margin-bottom:.6rem;}
 .info-blk p{font-size:.9rem;color:var(--text-muted);line-height:1.75;}
 .prose p{font-size:.95rem;color:var(--text-muted);line-height:1.8;margin-bottom:1rem;}
-
-/* OFFICERS */
 .off-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
 .off-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem 1rem;text-align:center;transition:transform .3s,box-shadow .3s,border-color .3s;}
 .off-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px var(--orange-glow);border-color:rgba(232,98,26,.3);}
@@ -201,8 +184,6 @@ main{padding-top:var(--nav-h);}
 .off-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--orange);background:var(--orange-light);}
 .off-name{font-weight:600;font-size:.9rem;margin-bottom:.25rem;color:var(--text);}
 .off-role{font-size:.72rem;color:var(--orange);font-weight:500;letter-spacing:.04em;}
-
-/* PROJECTS */
 .tabs-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem;}
 .tab-pill{padding:.55rem 1.5rem;border-radius:100px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif;}
 .tab-pill.active,.tab-pill:hover{border-color:var(--orange);background:var(--orange);color:#fff;}
@@ -225,8 +206,6 @@ main{padding-top:var(--nav-h);}
 [data-theme="dark"] .s-done{background:#064E3B;color:#6EE7B7;}
 [data-theme="dark"] .s-ongoing{background:#78350F;color:#FCD34D;}
 [data-theme="dark"] .s-upcoming{background:#1E3A5F;color:#93C5FD;}
-
-/* TRANSPARENCY */
 .trans-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-bottom:3.5rem;}
 .t-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.75rem;display:flex;gap:1.25rem;align-items:flex-start;transition:box-shadow .3s,border-color .3s;}
 .t-card:hover{box-shadow:0 8px 32px var(--orange-glow);border-color:rgba(232,98,26,.25);}
@@ -243,8 +222,6 @@ main{padding-top:var(--nav-h);}
 .bgt td{padding:.9rem 1.25rem;font-size:.875rem;color:var(--text);border-bottom:1px solid var(--border);}
 .bgt tr:last-child td{border-bottom:none;}
 .bgt tbody tr:hover td{background:var(--orange-light);}
-
-/* ACHIEVEMENTS */
 .ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
 .ach-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;}
 .ach-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px var(--orange-glow);border-color:rgba(232,98,26,.3);}
@@ -257,8 +234,6 @@ main{padding-top:var(--nav-h);}
 .ach-body h3{font-weight:600;font-size:.95rem;margin-bottom:.4rem;color:var(--text);line-height:1.4;}
 .ach-body p{font-size:.83rem;color:var(--text-muted);line-height:1.65;}
 .ach-yr{display:inline-block;margin-top:.75rem;font-size:.68rem;font-weight:700;color:var(--orange);letter-spacing:.08em;text-transform:uppercase;}
-
-/* LAWS */
 .laws-list{display:flex;flex-direction:column;gap:1rem;}
 .law-item{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.75rem;display:flex;gap:1.5rem;align-items:flex-start;transition:box-shadow .3s,border-color .3s;}
 .law-item:hover{box-shadow:0 8px 32px var(--orange-glow);border-color:rgba(232,98,26,.25);}
@@ -267,8 +242,6 @@ main{padding-top:var(--nav-h);}
 .law-info p{font-size:.875rem;color:var(--text-muted);line-height:1.7;}
 .law-info a{display:inline-flex;align-items:center;gap:.3rem;font-size:.82rem;font-weight:600;color:var(--orange);text-decoration:none;margin-top:.6rem;transition:gap .2s;}
 .law-info a:hover{gap:.5rem;}
-
-/* FOOTER */
 footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 2rem;}
 .ft-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:2rem;}
 .ft-brand-logo{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;}
@@ -283,8 +256,6 @@ footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 
 .ft-col a:hover{color:rgba(232,98,26,.75);}
 .ft-btm{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;}
 .ft-btm p{font-size:.75rem;color:rgba(255,255,255,.18);}
-
-/* FACEBOOK POSTS */
 .fb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
 .fb-post-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;}
 .fb-post-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px var(--orange-glow);border-color:rgba(232,98,26,.25);}
@@ -296,8 +267,6 @@ footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 
 .fb-empty{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--text-muted);font-size:.9rem;}
 @media(max-width:1024px){.fb-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:640px){.fb-grid{grid-template-columns:1fr;}}
-
-/* ADMIN */
 .admin-login-card{max-width:420px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;text-align:center;}
 .admin-login-icon{width:60px;height:60px;border-radius:50%;background:var(--orange-light);margin:0 auto 1.25rem;display:flex;align-items:center;justify-content:center;}
 .admin-login-icon svg{width:26px;height:26px;stroke:var(--orange);}
@@ -347,15 +316,9 @@ footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 
 .fb-spinner{width:24px;height:24px;border:2.5px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
 @keyframes spin{to{transform:rotate(360deg);}}
 @media(max-width:640px){.admin-form-grid{grid-template-columns:1fr;}}
-
-/* REVEAL */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
-
-/* EMPTY */
 .empty{text-align:center;padding:4rem 2rem;color:var(--text-muted);font-size:.9rem;}
-
-/* RESPONSIVE */
 @media(max-width:1024px){
   .grid3{grid-template-columns:repeat(2,1fr);}
   .ach-grid{grid-template-columns:repeat(2,1fr);}
@@ -746,7 +709,7 @@ footer{background:var(--gray-900);color:rgba(255,255,255,.45);padding:4rem 2rem 
 </footer>
 
 <script>
-// ── HERO CANVAS ANIMATION (unchanged) ──
+// ── HERO CANVAS ANIMATION (unchanged, but kept) ──
 (function(){
   const canvas = document.getElementById('hero-canvas');
   if(!canvas) return;
@@ -796,7 +759,7 @@ window.addEventListener('load',()=>{ initReveal(); renderAnnouncements(); render
 window.addEventListener('scroll',initReveal,{passive:true});
 
 // ══════════════════════════════════════════
-// GOOGLE SHEETS CMS — using PapaParse (fixed)
+// GOOGLE SHEETS CMS — FIXED fetchSheet with better proxies
 // ══════════════════════════════════════════
 const BASE = '2PACX-1vR58WhbJKoBlkicSyz5lu7IJbUNTFjNXfFJsDKOKjFDPQBS9yMDmYkTFUMn4mt1T19s14F3HbLWb91i';
 const SHEETS = {
@@ -808,27 +771,66 @@ const SHEETS = {
   fb_posts:      `https://docs.google.com/spreadsheets/d/e/${BASE}/pub?gid=1805364192&single=true&output=csv`,
 };
 
-async function fetchSheet(key){
+async function fetchSheet(key) {
   const url = SHEETS[key] + '&t=' + Date.now();
+  
+  // More reliable proxies (allorigins.win and cors-anywhere are most dependable)
   const proxies = [
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    `https://cors-anywhere.herokuapp.com/${url}`,
     `https://corsproxy.io/?${encodeURIComponent(url)}`,
-    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-    `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
   ];
-  for(const proxy of proxies){
-    try{
+
+  for (const proxy of proxies) {
+    try {
+      console.log(`📡 Trying proxy for ${key}: ${proxy.substring(0, 70)}...`);
       const res = await fetch(proxy);
-      if(!res.ok) continue;
+      
+      if (!res.ok) {
+        console.warn(`⚠️ Proxy returned ${res.status} for ${key}`);
+        continue;
+      }
+      
       const text = await res.text();
+      
+      // Check if we got HTML (Google login page or error)
+      if (text.includes("ServiceLogin") || text.includes("Sign in") || (text.trim().startsWith("<") && !text.includes(","))) {
+        console.warn(`❌ Proxy returned HTML instead of CSV for ${key}. Make sure sheet is published and accessible.`);
+        continue;
+      }
+      
       let csv = text;
-      try{ const json = JSON.parse(text); if(json.contents) csv = json.contents; }catch(e){}
+      // If response is JSON (allorigins wraps it), extract contents
+      try {
+        const json = JSON.parse(text);
+        if (json.contents) csv = json.contents;
+      } catch (e) {
+        // Not JSON, keep as is
+      }
+      
+      // Use PapaParse
       const result = Papa.parse(csv, { header: true, skipEmptyLines: true });
-      if(result.errors.length) console.warn(`PapaParse errors (${key}):`, result.errors);
-      const rows = result.data.filter(row => row.visible && row.visible.toLowerCase() === 'yes');
-      if(rows.length > 0) return rows;
-    }catch(e){ console.warn(`Proxy ${proxy} failed:`, e); }
+      if (result.errors.length) {
+        console.warn(`⚠️ PapaParse errors for ${key}:`, result.errors);
+      }
+      
+      const rows = result.data.filter(row => 
+        row.visible && row.visible.toLowerCase() === 'yes'
+      );
+      
+      if (rows.length > 0) {
+        console.log(`✅ Loaded ${rows.length} rows from ${key}`);
+        return rows;
+      } else {
+        console.log(`ℹ️ No visible rows in ${key}`);
+        return [];
+      }
+    } catch (e) {
+      console.warn(`❌ Proxy failed: ${proxy}`, e.message);
+    }
   }
-  console.error(`All proxies failed for sheet: ${key}`);
+  
+  console.error(`🚫 All proxies failed for sheet: ${key}`);
   return [];
 }
 
@@ -841,6 +843,7 @@ function sanitize(str){ const d = document.createElement('div'); d.textContent =
 function loadingHTML(){ return `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);display:flex;align-items:center;justify-content:center;gap:.75rem;"><div class="fb-spinner"></div>Loading...</div>`; }
 function emptyHTML(msg){ return `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);font-size:.9rem;">${msg}</div>`; }
 
+// Rendering functions (unchanged, they use fetchSheet)
 async function renderAnnouncements(){
   const grid = document.getElementById('announcements-grid');
   if(!grid) return;
