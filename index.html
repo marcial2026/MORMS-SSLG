@@ -1045,18 +1045,30 @@ function parseCSV(text){
   }).filter(r=>(r.visible||'').toLowerCase()==='yes');
 }
 
-// ── FETCH via allorigins proxy (avoids CORS) ──
+// ── FETCH via multiple proxy fallbacks ──
 async function fetchSheet(key){
-  try{
-    const url = SHEETS[key]+'&t='+Date.now();
-    const proxy = 'https://api.allorigins.win/get?url='+encodeURIComponent(url);
-    const res  = await fetch(proxy);
-    const json = await res.json();
-    return parseCSV(json.contents);
-  }catch(e){
-    console.error('Sheet fetch error ['+key+']:',e);
-    return [];
+  const url = SHEETS[key]+'&t='+Date.now();
+  const proxies = [
+    `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+    `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+  ];
+  for(const proxy of proxies){
+    try{
+      const res  = await fetch(proxy);
+      if(!res.ok) continue;
+      const text = await res.text();
+      // allorigins wraps in JSON, others return raw CSV
+      let csv = text;
+      try{ const j=JSON.parse(text); if(j.contents) csv=j.contents; }catch(e){}
+      const rows = parseCSV(csv);
+      if(rows.length>=0) return rows;
+    }catch(e){
+      console.warn('Proxy failed:',proxy,e);
+    }
   }
+  console.error('All proxies failed for sheet:',key);
+  return [];
 }
 
 // ── HELPERS ──
